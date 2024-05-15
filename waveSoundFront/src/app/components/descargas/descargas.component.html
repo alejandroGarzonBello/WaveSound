@@ -1,0 +1,35 @@
+<div class="m-3">
+    <a href="/" class="text-white">Volver</a>
+</div>
+<div class="centered-div">
+    <form [formGroup]="form" class="register" (submit)="onSubmit()">
+        <input type="text" placeholder="Nombre del video" class="input-field" id="nombre" name="nombre" formControlName="nombre">
+        <input type="text" placeholder="URL del video" class="input-field" id="url" name="url" formControlName="url">
+        <button class="download-button" type="submit">Descargar Video</button>
+    </form>
+    <button class="download-button" (click)="onSubmit2()" type="submit">Descargar Audio</button>
+</div>
+<div class="container">
+    <div class="row justify-content-center w-100">
+        <div class="col mb-4 ms-5">
+            <h2 class="text-white">Videos</h2>
+            <div style="max-height: 140px; overflow-y: auto;">
+                <div *ngFor="let video of videos" class="text-white">
+                    {{ video }}
+                    <span class="material-symbols-outlined ms-3" (click)="downloadVideo(video,usuario.id.toString())">download</span>
+                </div>
+            </div>
+        </div>
+        <div class="col mb-4">
+            <h2 class="text-white">Audios</h2>
+            <div style="max-height: 140px; overflow-y: auto;">
+                <div *ngFor="let audio of audios" class="text-white">
+                    {{ audio }}
+                    <span class="material-symbols-outlined ms-3" (click)="downloadAudio(audio,usuario.id.toString())">download</span>
+                </div>
+            </div>
+        </div>
+    </div> 
+</div>
+
+

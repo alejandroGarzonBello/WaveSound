@@ -1,0 +1,20 @@
+.contenedor{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.register{
+    width: 400px;
+    background-color: #b2b1b183;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+h1{
+    text-align: center;
+    margin-bottom: 20px;
+    color: #fff;
+    
+}
