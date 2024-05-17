@@ -1,4 +1,22 @@
-
 <div class="conatiner">
-  <router-outlet />
+  <nav class="navbar navbar-expand-lg bg-dark ps-1 pe-1 ">
+    <div class="container-fluid pt-1">
+      <div class="d-flex align-items-center">
+        <img src="../assets/img/logo_icon.png" width="50">
+        <a class="nav-link" routerLink=""><span class="h4 text-white">Home</span></a>
+        <a class="nav-link ms-3" routerLink="descargar"><span class="h4 text-white">Descarga</span></a>
+      </div>
+      <app-login></app-login>
+    </div>
+  </nav>
+  <div class="content d-flex flex-row">
+    <div class="col-sm-8">
+      <router-outlet />
+    </div>
+    <div class="col-sm-4" style="background-color: #313338;">
+      <div class="app-sidebar">
+        <app-sidebar (cancionEvento)="receiveMessage($event)"></app-sidebar>
+    </div>
+    </div>
+  </div>
 </div>

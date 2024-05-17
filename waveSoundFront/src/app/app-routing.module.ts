@@ -10,11 +10,9 @@ import { DescargasComponent } from './components/descargas/descargas.component';
 import { PlaylistComponent } from './components/playlist/playlist.component';
 
 const routes: Routes = [
-  {path: 'canciones',component: HomeComponent,canActivate:[authGuard]},
-  {path: 'login', component: LoginComponent},
-  {path: 'register', component: RegisterComponent},
+  {path: 'canciones',component: HomeComponent},
   {path:'page-not-found',component:PageNotFoundComponent},
-  {path: '',component: HomeComponent,canActivate:[authGuard]},
+  {path: '',component: HomeComponent},
   {path: 'descargar',component: DescargasComponent,canActivate:[authGuard]},
   {path: 'playlist',component: PlaylistComponent,canActivate:[authGuard]},
   {path: 'subida',component: SubidaComponent,canActivate:[authGuard]},

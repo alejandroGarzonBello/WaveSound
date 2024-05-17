@@ -28,10 +28,6 @@ export class HomeComponent {
     this.cancion = JSON.parse($event);
   }
 
-  logout(){
-    this.tokenService.revokeToken();
-    this.router.navigate(['/login']);
-  }
 
     musica(){
       if(this.cancion.titulo==="Seleccione una cancion"){

@@ -1,0 +1,6 @@
+.test{
+    background-image: url("../../../assets/img/madera.jpg");
+    background-size: cover; /* Hacer que la imagen cubra todo el fondo */
+    background-repeat: no-repeat; /* Evitar que la imagen se repita */
+    background-position: center; /* Centrar la imagen en el fondo */
+}

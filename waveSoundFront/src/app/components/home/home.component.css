@@ -534,10 +534,9 @@
 }
 
 .img-mover {
-    position: relative;
-    left: -5vw;
-}
-
-.mover{
-	height: 10px;
+    width: 20vh;
+	height: 20vh;
+	border-radius: 10%;
+	position: relative;
+	animation: mover 2s infinite;
 }

@@ -1,18 +1,24 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TokenService } from '../../service/Token.service';
 import { AuthService } from '../../service/Auth.service';
 import { Usuario } from '../../models/Usuario';
 
+
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent {
-
+export class LoginComponent{
+  @ViewChild('closeModal') closeModal: ElementRef<HTMLButtonElement> | undefined;
+  @ViewChild('password') password: ElementRef<HTMLInputElement> | undefined;
+  formLogin: boolean = true
+  loged: boolean = false
   public login:FormGroup
+  public registerForm:FormGroup
   public errors:any
   usuario:Usuario|undefined
 
@@ -20,29 +26,72 @@ export class LoginComponent {
     private router:Router,
     private activatedRouter:ActivatedRoute,
     private service:AuthService,
-    private tokeService:TokenService) { 
+    private tokenService:TokenService) { 
 
    this.login = this.formBuilder.group({
       email:[""],
       password:[""],
    })
+   this.registerForm= this.formBuilder.group({
+    nombre:[""],
+    email:[""],
+    password:[""]
+  })
   }
 
-  
-  
-  onSubmit(){
-    this.cleanErrors()
-    if(this.login.valid){
-      this.service.login(this.login.value).subscribe(
-        response => this.handleResponse(response),
-        error => this.handleError(error)
-      )
+  ngOnInit(): void {
+    if (this.tokenService.getToken()){
+      this.loged = true
     }
     
   }
+  
+  onSubmit(){
+    this.cleanErrors()
+    if (this.formLogin){
+      if(this.login.valid){
+        this.service.login(this.login.value).subscribe(
+          response => this.handleResponse(response),
+          error => this.handleError(error)
+        )
+        this.loged = true
+        this.closeModal?.nativeElement.click()
+        if (this.password) {
+          this.password.nativeElement.value = "";
+        }
+      }
+    } else {
+      if(this.registerForm.valid){
+        this.service.register(this.registerForm.value).subscribe(
+          response => this.handleResponse(response),
+          error => this.handleError(error)
+        )
+      }
+    }
+  }
+
+  cambiar(){
+    if (this.formLogin){
+      this.formLogin = false
+      
+    }
+    else{
+      this.formLogin = true
+     
+    }
+  }
+
+  
+  logout(){
+    this.tokenService.revokeToken();
+    this.loged = false
+    this.router.navigate(['']);
+  }
+
   private handleResponse(response: any): void {
-    console.log(response);
-    this.usuario={
+    if (this.formLogin){
+      console.log(response);
+      this.usuario={
       id:response.id,
       nombre:response.nombre,
       email:response.email,
@@ -51,8 +100,13 @@ export class LoginComponent {
       canciones:null
     }
     localStorage.setItem('usuario',JSON.stringify(this.usuario))
-    this.tokeService.handleToken(response.token);
+    this.tokenService.handleToken(response.token);
     this.router.navigate(['/canciones']);
+    } else {
+      console.log(response.message)
+      this.router.navigate(['/login'])
+    }
+    
   }
 
    handleError(error:any){
@@ -64,8 +118,7 @@ export class LoginComponent {
     this.errors = null
    }
 
-   goToRegister(){
-    this.router.navigate(['/register'])
-   }
+
+   
 
 }
