@@ -1,6 +1,6 @@
-<div class="m-3">
-    <a href="/" class="text-white">Volver</a>
-</div>
+<div class="fondo">
+    
+
 <div class="centered-div">
     <form [formGroup]="form" class="register" (submit)="onSubmit()">
         <input type="text" placeholder="Nombre del video" class="input-field" id="nombre" name="nombre" formControlName="nombre">
@@ -9,7 +9,7 @@
     </form>
     <button class="download-button" (click)="onSubmit2()" type="submit">Descargar Audio</button>
 </div>
-<div class="container bg-success">
+<div class="container bg-dark">
     <div class="row justify-content-center w-100">
         <div class="col mb-4 ms-5">
             <h2 class="text-white">Videos</h2>
@@ -31,5 +31,5 @@
         </div>
     </div> 
 </div>
-
+</div>
 
