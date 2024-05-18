@@ -1,13 +1,14 @@
-<div class="content">
+
+<div class="container-fluid m-0 p-0" >
   <nav class="navbar navbar-expand-lg bg-dark ps-1 pe-1 ">
-    <div class="container-fluid pt-1">
-      <div class="d-flex align-items-center">
-        <img src="../assets/img/logo_icon.png" width="50">
-        <a class="nav-link" routerLink=""><span class="h4 text-white">Home</span></a>
-        <a class="nav-link ms-3" routerLink="descargar"><span class="h4 text-white">Descarga</span></a>
+      <div class="container-fluid pt-1">
+        <div class="d-flex align-items-center">
+          <img src="../assets/img/logo_icon.png" width="30">
+          <a class="nav-link" routerLink=""><span class="h5 text-white">Home</span></a>
+          <a class="nav-link ms-3" routerLink="descargar"><span class="54 text-white">Descarga</span></a>
+        </div>
+        <app-login></app-login>
       </div>
-      <app-login></app-login>
-    </div>
-  </nav>
-  <router-outlet />
+    </nav>
+    <router-outlet />
 </div>
