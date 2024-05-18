@@ -11,15 +11,4 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   title = 'waveSoundFront';
-  constructor(private tokenService:TokenService,private router:Router) { }
-  desactivada=true
-  storageSub: Subscription | undefined;
-  cancionData = localStorage.getItem('cancion');
-  cancion: Cancion = this.cancionData ? JSON.parse(this.cancionData) : {};
-  
-  receiveMessage($event: string) {
-    console.log("prueba" + $event);
-    this.cancion = JSON.parse($event);
-  }
-
 }

@@ -1,13 +1,17 @@
-<div class="back">
+<div class="">
     <!-- HTML -->
-    <div class="navbar">
-        <button (click)="playlist()" class="nav-button">Playlist</button>
-        <button (click)="subir()" class="nav-button">Subir</button>
-        <button (click)="descargar()" class="nav-button">Descargas</button>
+    <div class="ps-1">
+        <button (click)="setCanciones()" class="nav-button btn bg-dark border">Canciones</button>
+        <button (click)="playlist()" class="nav-button btn bg-dark border">Playlist</button>
+        <app-subida/>
     </div>
-    <ul class="nav-list mt-3 scrollable-list">
-        <li class="nav-list-item" *ngFor="let c of canciones10 | async" (click)="reproducir(c)">
-            <img [src]="c.portada" alt="">{{c.titulo}}
-        </li>
-    </ul>
+    @if (menuSelected == 'canciones'){
+        <ul class="nav-list p-4 scrollable-list">
+            <li class="nav-list-item" *ngFor="let c of canciones10 | async" (click)="reproducir(c)">
+                <img [src]="c.portada" alt="">{{c.titulo}}
+            </li>
+        </ul>
+    } @else {
+        <h1>playlist</h1>
+    }
 </div>

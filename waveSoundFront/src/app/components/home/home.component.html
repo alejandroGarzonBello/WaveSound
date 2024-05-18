@@ -1,57 +1,63 @@
-<div class="d-flex justify-content-center align-items-center cuerpo flex-column">
-    <div class="d-flex align-items-center mt-4">
-        @if (cancion.portada){
-            <img [src]="cancion.portada" alt="" class="img-mover">
-        }
-        @else{
-            <img src="../../../assets/img/img_default.png" alt="" class="img-mover">
-        }
+<div class="d-flex flex-row">
+    <div class="col-sm-8">
+        <div class="d-flex justify-content-center align-items-center cuerpo flex-column">
+            <div class="d-flex align-items-center mt-5 gap-4">
+                @if (cancion.portada){
+                <img [src]="cancion.portada" alt="" class="img-mover">
+                }
+                @else{
+                <img src="../../../assets/img/img_default.png" alt="" class="img-mover">
+                }
 
- 
-        <h2 class="text-light mt-5 bg-dark border border-3 border-secondary rounded p-3">{{cancion.titulo}}</h2>
+
+                <h2 class="text-light mt-5 bg-dark border border-3 border-secondary rounded p-3">{{cancion.titulo}}</h2>
+            </div>
+            <div>
+                <div class="content">
+                    <div id="notas" class="">
+                        <span></span><span></span><span></span><span></span><span></span><span></span>
+                    </div>
+                    <div class="legs">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <div class="turntable"></div>
+                    <div class="disc"></div>
+                    <div class="vinyl"></div>
+                    <div id="disco" class="name"></div>
+                    <div class="wheel"></div>
+                    <div class="buttons">
+                        <span></span><span></span><span></span><span></span><span></span>
+                    </div>
+                    <div id="group" class="group">
+                        <div class="circle"></div>
+                        <div class="arm"></div>
+                        <div class="arm"></div>F
+                        <div class="head"></div>
+                    </div>
+                    <div class="towers">
+                        <span></span><span></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="d-flex justify-content-center align-items-center gap-5 mb-5">
+                    <button class="btn btn-secondary me-4 ms-3 bg-dark text-light">
+                        <span class="material-symbols-outlined">skip_previous</span>
+                    </button>
+                    <button class="btn btn-secondary me-4 bg-dark text-light" (click)="musica()">
+                        <span class="material-symbols-outlined">play_arrow</span>
+                    </button>
+                    <button class="btn btn-secondary bg-dark text-light">
+                        <span class="material-symbols-outlined">skip_next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
+    <div class="col-sm-4" style="background-color: #313338; min-height: 100vh;">
+        
+            <app-sidebar (cancionEvento)="receiveMessage($event)"></app-sidebar>
 
-    <div class="content">
-        <div id="notas" class="">
-            <span></span><span></span><span></span><span></span><span></span><span></span>
-        </div>
-        <div class="legs">
-            <span></span><span></span><span></span>
-        </div>
-        <div class="turntable"></div>
-        <div class="disc"></div>
-        <div class="vinyl"></div>
-        <div id="disco" class="name"></div>
-        <div class="wheel"></div>
-        <div class="buttons">
-            <span></span><span></span><span></span><span></span><span></span>
-        </div>
-        <div id="group" class="group">
-            <div class="circle"></div>
-            <div class="arm"></div>
-            <div class="arm"></div>F
-            <div class="head"></div>
-        </div>
-        <div class="towers">
-            <span></span><span></span>
-        </div>
     </div>
-
-    <div class="row">
-        <div class="d-flex justify-content-center align-items-center gap-5 mb-5">
-            <button class="btn btn-secondary me-4 ms-3 bg-dark text-light">
-                <span class="material-symbols-outlined">skip_previous</span>
-            </button>
-            <button class="btn btn-secondary me-4 bg-dark text-light" (click)="musica()">
-                <span class="material-symbols-outlined">play_arrow</span>
-            </button>
-            <button class="btn btn-secondary bg-dark text-light">
-                <span class="material-symbols-outlined">skip_next</span>
-            </button>
-        </div>
-    </div>
-
-    <div class="app-sidebar">
-        <app-sidebar (cancionEvento)="receiveMessage($event)"></app-sidebar>
-    </div> 
 </div>

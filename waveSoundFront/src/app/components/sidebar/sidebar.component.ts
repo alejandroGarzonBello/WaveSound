@@ -9,7 +9,7 @@ import { Route, Router } from '@angular/router';
   styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent {
-
+  menuSelected: string = 'canciones';
   constructor(private serviceCancion:CancionService,private router:Router) { }
 
   public canciones: Promise<Cancion[]> | undefined = this.serviceCancion.getAllCanciones();
@@ -28,13 +28,11 @@ export class SidebarComponent {
     this.cancionEvento.emit(JSON.stringify(cancion));
   }
 
-  descargar(){
-    this.router.navigate(['/descargar']);
-  }
   playlist(){
-    this.router.navigate(['/playlist']);
+    this.menuSelected = 'playlist';
   }
-  subir(){
-    this.router.navigate(['/subida']);
+
+  setCanciones(){
+    this.menuSelected = 'canciones';
   }
 }

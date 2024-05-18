@@ -14,8 +14,6 @@ const routes: Routes = [
   {path:'page-not-found',component:PageNotFoundComponent},
   {path: '',component: HomeComponent},
   {path: 'descargar',component: DescargasComponent,canActivate:[authGuard]},
-  {path: 'playlist',component: PlaylistComponent,canActivate:[authGuard]},
-  {path: 'subida',component: SubidaComponent,canActivate:[authGuard]},
   {path:"**",redirectTo: "/page-not-found", pathMatch: "full"}
 ];
 
