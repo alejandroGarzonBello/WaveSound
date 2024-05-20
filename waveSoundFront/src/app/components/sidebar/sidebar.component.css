@@ -19,7 +19,7 @@ img{
     margin-right: 5%;
 }
 .scrollable-list {
-    max-height: 45vh;
+    max-height: 75vh;
     overflow-y: auto;
 }
 /* CSS */

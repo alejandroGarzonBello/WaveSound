@@ -26,9 +26,9 @@
 </div>
 -->
 @if (loged){
-<button type="button" class="btn btn-outline-danger border-danger text-danger" (click)="logout()">Log Out</button>
+<button type="button" class="btn btn-outline-danger border-danger text-danger  btn-sm" (click)="logout()">Log Out</button>
 } @else {
-<button type="button" class="btn btn-outline-success border-success text-success" data-bs-toggle="modal"
+<button type="button" class="btn btn-outline-success border-success text-success  btn-sm" data-bs-toggle="modal"
   data-bs-target="#logging">
   Log In
 </button>
@@ -45,7 +45,7 @@
   <div class="alert alert-danger" *ngIf="errors && !errors?.email && !errors?.password">
     {{errors}}
   </div>
-  <div class="modal-dialog modal-dialog-centered">
+  <div class="modal-dialog modal-dialog-centered ">
     <div class="modal-content text-start">
       @if (formLogin) {
       <div class="modal-header d-flex align-items-center justify-content-around me-2">
@@ -64,7 +64,7 @@
           <label for="password" class="form-label">Contrase&ntilde;a:</label>
           <div class="form-group">
             <input class="form-control border-2 border-secondary" formControlName="password" #password id="password"
-              type="password" name="password" placeholder="Contrase&ntilde;">
+              type="password" name="password" placeholder="Contrase&ntilde;a">
           </div>
           <br />
         </div>
@@ -83,7 +83,7 @@
         <p class="modal-title fs-4 ps-4 fw-bold">Registro</p>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form [formGroup]="registerForm" class="register" (submit)="onSubmit()">
+      <form [formGroup]="registerForm" (submit)="onSubmit()">
         <div class="modal-body ms-4 me-4">
           <div class="form-group ">
             <label for="nombre" class="form-label">Nombre:</label>

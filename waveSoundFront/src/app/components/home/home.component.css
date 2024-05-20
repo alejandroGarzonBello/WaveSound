@@ -522,6 +522,6 @@
     width: 20vh;
 	height: 20vh;
 	border-radius: 10%;
-	position: relative;
+	position: absolute;
 	animation: mover 2s infinite;
 }
