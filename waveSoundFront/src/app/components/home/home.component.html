@@ -10,7 +10,15 @@
                 }
 
 
-                <h2 class="text-light mt-5 bg-dark border border-3 border-secondary rounded p-3">{{cancion.titulo}}</h2>
+                <h2 class="text-light mt-5 bg-dark border border-3 border-secondary rounded p-3">
+                @if(cancion.titulo){
+                    {{cancion.titulo}}
+                }    
+                @else{
+                    Seleccione una canción
+                }
+                
+                </h2>
             </div>
             <div>
                 <div class="content">
@@ -39,16 +47,20 @@
                     </div>
                 </div>
             </div>
+            <audio #audioElement>
+                <source [src]="cancionSrc" type="audio/mpeg">
+                Tu navegador no soporta el elemento de audio.
+              </audio>
 
             <div class="row">
                 <div class="d-flex justify-content-center align-items-center gap-5 mb-5">
-                    <button class="btn btn-secondary me-4 ms-3 bg-dark text-light">
+                    <button class="btn btn-secondary me-4 ms-3 bg-dark text-light" (click)="previousAudio()">
                         <span class="material-symbols-outlined">skip_previous</span>
                     </button>
                     <button class="btn btn-secondary me-4 bg-dark text-light" (click)="musica()">
                         <span class="material-symbols-outlined">play_arrow</span>
                     </button>
-                    <button class="btn btn-secondary bg-dark text-light">
+                    <button class="btn btn-secondary bg-dark text-light" (click)="nextAudio()">
                         <span class="material-symbols-outlined">skip_next</span>
                     </button>
                 </div>

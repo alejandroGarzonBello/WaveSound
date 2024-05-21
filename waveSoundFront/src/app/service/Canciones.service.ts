@@ -7,28 +7,30 @@ import { Cancion } from '../models/Cancion';
 export class CancionService {
 
     private baseurl = env.url;
+    private baseUrl2 = env.url2;
     
     headers = new HttpHeaders({'Authorization':'Bearer '+localStorage.getItem('access_token')})
 
-    constructor(private httClient:HttpClient) { }
+    constructor(private httpClient:HttpClient) { }
 
     getAllCanciones=async(): Promise<Cancion[]> => {
-        return this.httClient.get(`${this.baseurl}/canciones/listar`,{headers: this.headers}).toPromise() as Promise<Cancion[]>
+        return this.httpClient.get(`${this.baseurl}/canciones/listar`,{headers: this.headers}).toPromise() as Promise<Cancion[]>
     } 
 
+    getCancionesPorUsuarioId=async(id:number): Promise<Cancion[]> => {
+        return this.httpClient.get(`${this.baseurl}/canciones/usuario/${id}`,{headers: this.headers}).toPromise() as Promise<Cancion[]>
+    }
+
     getCancionById=async(id:number): Promise<Cancion> => {
-        return this.httClient.get(`${this.baseurl}/canciones/${id}`,{headers: this.headers}).toPromise() as Promise<Cancion>
+        return this.httpClient.get(`${this.baseurl}/canciones/${id}`,{headers: this.headers}).toPromise() as Promise<Cancion>
     }
 
     saveCancion=(cancion:Cancion): any => {
-        return this.httClient.post(`${this.baseurl}/canciones`,cancion,{headers: this.headers}).toPromise() as Promise<Cancion>
-    }
-
-    uploadCancion(file: File, userId: string) {
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('userId', userId);
-        return this.httClient.post(this.baseurl, formData, {headers: this.headers});
+        return this.httpClient.post(`${this.baseurl}/canciones`,cancion,{headers: this.headers, responseType: 'text'}).toPromise() as Promise<string>
       }
+
+    uploadCancion=(formData: FormData, id: string) => {
+        return this.httpClient.post(`${this.baseUrl2}/upload/${id}`, formData);
+    }
     
 }

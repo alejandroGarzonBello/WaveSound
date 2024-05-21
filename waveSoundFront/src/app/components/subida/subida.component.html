@@ -82,7 +82,7 @@
 </button>
 
 <!-- Modal -->
-<div class="modal fade" id="subida" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="subida" tabindex="-1" aria-hidden="true" #subida>
 
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content text-start">
@@ -142,6 +142,7 @@
                                 <label for="ubicacion">Ubicacion:</label>
                                 <input class="form-control" type="text" id="ubicacion" name="ubicacion"
                                     formControlName="ubicacion"
+                                    [disabled]="true"
                                     [ngClass]="{'is-invalid': form.get('ubicacion')?.invalid && submitted}" required>
                             </div>
                         </div>

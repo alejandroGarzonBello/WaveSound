@@ -1,9 +1,11 @@
-import { Component, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, SimpleChanges, ViewChild } from '@angular/core';
 import { AuthService } from '../../service/Auth.service';
 import { TokenService } from '../../service/Token.service';
 import { Route, Router } from '@angular/router';
 import { Cancion } from '../../models/Cancion';
 import { Subscription } from 'rxjs';
+import { Usuario } from '../../models/Usuario';
+import { CancionService } from '../../service/Canciones.service';
 
 @Component({
   selector: 'app-home',
@@ -11,25 +13,35 @@ import { Subscription } from 'rxjs';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  constructor(private tokenService:TokenService,private router:Router) { }
+
+  constructor(private tokenService:TokenService,private router:Router,private servicio:CancionService) { }
+
   desactivada=true
   storageSub: Subscription | undefined;
   cancionData = localStorage.getItem('cancion');
   cancion: Cancion = this.cancionData ? JSON.parse(this.cancionData) : {};
-  
-  ngOnInit(): void {
-    if(Object.keys(this.cancion).length === 0){
-      this.cancion.titulo="Seleccione una cancion";
-    }
+  usuario:Usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
+  cancionSrc = ``
+  @ViewChild('audioElement') audioElement: ElementRef | undefined;
+  canciones: Cancion[] = [];
+  cancionActual: number = 0;
+
+  async ngOnInit(): Promise<void> {
+    this.canciones = await this.servicio.getCancionesPorUsuarioId(this.usuario.id);
   }
 
   receiveMessage($event: string) {
     console.log("prueba" + $event);
     this.cancion = JSON.parse($event);
+    this.cancionActual = this.canciones.findIndex(c => c.id === this.cancion.id);
+    this.setAudioSource(`http://localhost:3000/subidas/${this.usuario.id}/${this.cancion.titulo.replace(/\s/g, '%20')}.m4a`)
+    if (this.audioElement) {
+      //this.audioElement.nativeElement.src = this.cancionSrc;
+    }
   }
 
 
-    musica(){
+    musica(s?:string){
       if(this.cancion.titulo==="Seleccione una cancion"){
         alert("Seleccione una cancion")
         return
@@ -37,16 +49,70 @@ export class HomeComponent {
       let musica = document.getElementById('notas')
       let disco = document.getElementById('disco')
       let group = document.getElementById('group')
-      if(this.desactivada){
+      if(s==="prueba"){
+        if (this.audioElement) {
+          this.audioElement.nativeElement.play();
+        }
         musica?.classList.add('music')
         disco?.classList.add('giro')
         group?.classList.add('playing')
-        this.desactivada=false
-      }else{
+        this.desactivada = false
+        return
+      }
+      if (this.desactivada) {
+        if (this.audioElement && this.audioElement.nativeElement) {
+          this.audioElement.nativeElement.play();
+        }
+        musica?.classList.add('music')
+        disco?.classList.add('giro')
+        group?.classList.add('playing')
+        this.desactivada = false
+      } else {
+        if (this.audioElement) {
+          this.audioElement.nativeElement.pause();
+        }
         musica?.classList.remove('music')
         disco?.classList.remove('giro')
         group?.classList.remove('playing')
-        this.desactivada=true
+        this.desactivada = true
+      }
+    }
+
+    nextAudio() {
+      if(this.cancion.titulo==="Seleccione una cancion"){
+        alert("Seleccione una cancion")
+        return
+      }
+      if (this.cancionActual < this.canciones.length - 1) {
+        this.cancionActual++
+        const cancionSiguiente = this.canciones[this.cancionActual]
+        this.setAudioSource(`http://localhost:3000/subidas/${this.usuario.id}/${cancionSiguiente.titulo.replace(/\s/g, '%20')}.m4a`);
+        this.cancion = cancionSiguiente;
+        this.musica("prueba");
+      } else {
+        alert("Ya estás en la última canción");
+      }
+    }
+  
+    previousAudio() {
+      if(this.cancion.titulo==="Seleccione una cancion"){
+        alert("Seleccione una cancion")
+        return
+      }
+      if (this.cancionActual > 0) {
+        this.cancionActual--;
+        const cancionAnterior = this.canciones[this.cancionActual];
+        this.setAudioSource(`http://localhost:3000/subidas/${this.usuario.id}/${cancionAnterior.titulo.replace(/\s/g, '%20')}.m4a`);
+        this.cancion = cancionAnterior;
+        this.musica("prueba");
+      } else {
+        alert("Ya estás en la primera canción");
+      }
+    }
+
+    setAudioSource(src: string) {
+      if (this.audioElement) {
+        this.audioElement.nativeElement.src = src;
       }
     }
 

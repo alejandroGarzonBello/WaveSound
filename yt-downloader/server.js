@@ -2,11 +2,14 @@ const express = require('express');
 const ytdl = require('ytdl-core');
 const fs = require('fs');
 const cors = require('cors');
+const fileUpload = require('express-fileupload');
 const path = require('path');
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(fileUpload());
+app.use('/subidas', express.static(path.join(__dirname, 'subidas')));
 
 app.post('/downloadVideo', async (req, res) => {
     const url = req.body.url;
@@ -113,6 +116,26 @@ app.get('/downloadAudio', function(req, res){
       res.send(files);
     });
   });
+
+  app.post('/upload/:id', (req, res) => {
+    const id = req.params.id;
+    const file = req.files.archivo;
+
+    const userPath = path.join(__dirname, `subidas/${id}`);
+    fs.mkdirSync(userPath, { recursive: true });
+
+    const filePath = path.join(userPath, file.name);
+
+    fs.writeFile(filePath, file.data, (err) => {
+      if (err) {
+        console.error('Error al guardar el archivo:', err);
+        res.status(500).send('Error al guardar el archivo');
+      } else {
+        res.send('Archivo ha sido subido y guardado.');
+      }
+    });
+  });
+
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000');

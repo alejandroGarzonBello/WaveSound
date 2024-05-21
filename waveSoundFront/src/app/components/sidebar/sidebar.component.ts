@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { Cancion } from '../../models/Cancion';
 import { CancionService } from '../../service/Canciones.service';
 import { Route, Router } from '@angular/router';
+import { Usuario } from '../../models/Usuario';
 
 @Component({
   selector: 'app-sidebar',
@@ -10,15 +11,16 @@ import { Route, Router } from '@angular/router';
 })
 export class SidebarComponent {
   menuSelected: string = 'canciones';
+  usuario:Usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
   constructor(private serviceCancion:CancionService,private router:Router) { }
 
-  public canciones: Promise<Cancion[]> | undefined = this.serviceCancion.getAllCanciones();
+  public canciones: Promise<Cancion[]> | undefined = this.serviceCancion.getCancionesPorUsuarioId(this.usuario.id);
 
   public canciones10: Promise<Cancion[]> | undefined
   @Output() cancionEvento = new EventEmitter<string>()
 
   ngOnInit(): void {
-    this.canciones = this.serviceCancion.getAllCanciones();
+    this.canciones = this.serviceCancion.getCancionesPorUsuarioId(this.usuario.id);
     this.canciones10 = this.canciones?.then((canciones: Cancion[]) => {
       return canciones.slice(0, 10);
     });
