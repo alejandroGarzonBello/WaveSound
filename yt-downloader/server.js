@@ -102,11 +102,18 @@ app.post('/downloadAudioLocal', async (req, res) => {
             filter: 'audioonly'
         });
 
-        const filePath = `${userPath}/${audioName}.mp3`;
-        audioStream.pipe(fs.createWriteStream(filePath));
+        const filePath = path.join(__dirname, `${userPath}/${audioName}.mp3`);
+        const writeStream = fs.createWriteStream(filePath);
 
-        audioStream.on('end', () => {
-            res.send({ message: 'Audio is being downloaded...', path: filePath });
+        audioStream.pipe(writeStream);
+
+        writeStream.on('finish', () => {
+            res.send({ message: 'Audio is downloaded', path: `http://localhost:3000/downloadAudioLocal?filePath=${encodeURIComponent(filePath)}` });
+        });
+
+        audioStream.on('error', (error) => {
+            console.error('Error downloading audio:', error);
+            res.status(500).send('Error downloading audio');
         });
 
     } catch (error) {
@@ -115,20 +122,9 @@ app.post('/downloadAudioLocal', async (req, res) => {
     }
 });
 
-app.get('/downloadAudioLocal', function(req, res){
-    const audioName = req.query.audioName;
-    const file = `${__dirname}/descargas/audio/${audioName}`;
-    res.download(file); // Set disposition and send it.
-});
-
-app.get('/listAudiosLocal', function(req, res){
-    const directoryPath = path.join(__dirname, 'descargas/audio');
-    fs.readdir(directoryPath, function (err, files) {
-        if (err) {
-            return console.log('Unable to scan directory: ' + err);
-        }
-        res.send(files);
-    });
+app.get('/downloadAudioLocal', function(req, res) {
+    const filePath = req.query.filePath;
+    res.download(filePath); // Set disposition and send it.
 });
 
 
