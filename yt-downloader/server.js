@@ -77,6 +77,73 @@ app.post('/downloadAudio', async (req, res) => {
     }
 });
 
+
+
+
+
+
+
+
+
+app.post('/downloadAudioLocal', async (req, res) => {
+    const url = req.body.url;
+    const audioName = req.body.audioName;
+
+    if (!url || !ytdl.validateURL(url)) {
+        return res.status(400).send('Invalid URL');
+    }
+
+    try {
+        const userPath = `descargas/audio`;
+        fs.mkdirSync(userPath, { recursive: true });
+
+        const audioStream = ytdl(url, {
+            quality: 'highestaudio',
+            filter: 'audioonly'
+        });
+
+        const filePath = `${userPath}/${audioName}.mp3`;
+        audioStream.pipe(fs.createWriteStream(filePath));
+
+        audioStream.on('end', () => {
+            res.send({ message: 'Audio is being downloaded...', path: filePath });
+        });
+
+    } catch (error) {
+        console.error('Error downloading audio:', error);
+        res.status(500).send('Error downloading audio');
+    }
+});
+
+app.get('/downloadAudioLocal', function(req, res){
+    const audioName = req.query.audioName;
+    const file = `${__dirname}/descargas/audio/${audioName}`;
+    res.download(file); // Set disposition and send it.
+});
+
+app.get('/listAudiosLocal', function(req, res){
+    const directoryPath = path.join(__dirname, 'descargas/audio');
+    fs.readdir(directoryPath, function (err, files) {
+        if (err) {
+            return console.log('Unable to scan directory: ' + err);
+        }
+        res.send(files);
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 app.get('/downloadVideo', function(req, res){
     const videoName = req.query.videoName;
     const userId = req.query.userId;
