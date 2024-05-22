@@ -1,17 +1,18 @@
-<div class="">
+<div class="ps-1 mt-1">
+    <button (click)="setCanciones()" class="btn bg-dark border border-bottom-0 rounded-top straight-bottom text-white">Canciones</button>
+    <button (click)="playlist()" class="btn bg-dark border border-bottom-0 rounded-top straight-bottom text-white">Playlist</button>
+    <app-subida/>
+</div>
+<div class="rounded-start border border-white" style="background-color: #313338; ">
     <!-- HTML -->
-    <div class="ps-1">
-        <button (click)="setCanciones()" class="nav-button btn bg-dark border">Canciones</button>
-        <button (click)="playlist()" class="nav-button btn bg-dark border">Playlist</button>
-        <app-subida/>
-    </div>
+    
     @if (menuSelected == 'canciones'){
-        <ul class="nav-list p-4 scrollable-list">
+        <ul class="nav-list p-3 pt-1 scrollable-list">
             <li class="nav-list-item" *ngFor="let c of canciones10 | async" (click)="reproducir(c)">
                 <img [src]="c.portada" alt="">{{c.titulo}}
             </li>
         </ul>
     } @else {
-        <h1>playlist</h1>
+        <app-playlist/>
     }
 </div>

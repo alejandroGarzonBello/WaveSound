@@ -19,7 +19,7 @@ img{
     margin-right: 5%;
 }
 .scrollable-list {
-    max-height: 45vh;
+    max-height: 75vh;
     overflow-y: auto;
 }
 /* CSS */
@@ -51,3 +51,13 @@ img{
 button{
     width: 33%;
 }
+
+.rounded-top {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  
+  .straight-bottom {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }

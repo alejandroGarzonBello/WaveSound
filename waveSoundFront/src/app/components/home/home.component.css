@@ -1,19 +1,4 @@
-.cuerpo{
-    height: 90vh;
-}
 
-
-
-.contenedor {
-	margin: 0;
-	padding: 0;
-	width: 100vw;
-	height: 100vh;
-	overflow: hidden;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
 
 .content {
 	width: 80vmin;
@@ -537,6 +522,6 @@
     width: 20vh;
 	height: 20vh;
 	border-radius: 10%;
-	position: relative;
+	position: absolute;
 	animation: mover 2s infinite;
 }
