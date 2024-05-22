@@ -1,12 +1,10 @@
 import {
   Component,
   ElementRef,
-  EventEmitter,
   OnInit,
-  Output,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TokenService } from '../../service/Token.service';
 import { AuthService } from '../../service/Auth.service';
@@ -15,9 +13,9 @@ import { Usuario } from '../../models/Usuario';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
+  styleUrls: ['./login.component.css'],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   @ViewChild('closeModal') closeModal:
     | ElementRef<HTMLButtonElement>
     | undefined;
@@ -37,13 +35,13 @@ export class LoginComponent {
     private tokenService: TokenService
   ) {
     this.login = this.formBuilder.group({
-      email: [''],
-      password: [''],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
     });
     this.registerForm = this.formBuilder.group({
-      nombre: [''],
-      email: [''],
-      password: [''],
+      nombre: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
     });
   }
 
@@ -58,11 +56,14 @@ export class LoginComponent {
     if (this.formLogin) {
       if (this.login.valid) {
         this.service.login(this.login.value).subscribe(
-          (response) => this.handleResponse(response),
+          (response) => {
+            this.handleResponse(response);
+            this.loged = true;
+            this.closeModal?.nativeElement.click();
+          },
           (error) => this.handleError(error)
         );
-        this.loged = true;
-        this.closeModal?.nativeElement.click();
+
         if (this.password) {
           this.password.nativeElement.value = '';
         }
@@ -78,11 +79,7 @@ export class LoginComponent {
   }
 
   cambiar() {
-    if (this.formLogin) {
-      this.formLogin = false;
-    } else {
-      this.formLogin = true;
-    }
+    this.formLogin = !this.formLogin;
   }
 
   logout() {
@@ -115,9 +112,15 @@ export class LoginComponent {
   }
 
   handleError(error: any) {
-    this.errors = error.error.errors;
+    // Verificar si error y error.error existen
+    if (error && error.error) {
+      this.errors = error.error.errors || { non_field_errors: error.error.message || 'An unknown error occurred' };
+    } else {
+      this.errors = { non_field_errors: 'An unknown error occurred' };
+    }
     console.log(this.errors);
   }
+  
 
   private cleanErrors() {
     this.errors = null;

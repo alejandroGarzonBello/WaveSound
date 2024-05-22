@@ -2,10 +2,10 @@
     <div class="col-sm-8 mt-2 d-flex flex-column justify-content-center">
         <div class="d-flex align-items-botton justify-content-center gap-4" >
             @if (cancion.portada){
-            <img [src]="cancion.portada" alt="" class="img-mover">
+            <img [src]="cancion.portada" alt="">
             }
             @else{
-            <img src="../../../assets/img/img_default.png" alt="" >
+            <img src="../../../assets/img/img_default.png"  alt="" >
             }
             <p class="text-light bg-dark border border-3 border-secondary rounded p-3 pb-0 mb-0 h3">{{cancion.titulo}}
             </p>
@@ -50,7 +50,7 @@
         </div>
     </div>
     <div class="w-100 d-sm-none m-4"></div>
-    <div class="col-sm-4" style="background-color: #313338; ">
+    <div class="col-sm-4">
         <app-sidebar (cancionEvento)="receiveMessage($event)"></app-sidebar>
     </div>
 </div>
