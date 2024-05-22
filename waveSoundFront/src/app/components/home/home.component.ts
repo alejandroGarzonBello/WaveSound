@@ -42,7 +42,7 @@ export class HomeComponent {
 
 
     musica(s?:string){
-      if(this.cancion.titulo==="Seleccione una cancion"){
+      if(!this.cancion.titulo){
         alert("Seleccione una cancion")
         return
       }

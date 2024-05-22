@@ -2,6 +2,6 @@
 @import "bootstrap/dist/css/bootstrap.css";
 
 body{
-    background-image: url("./assets/img/madera.jpg") !important;
+    background-image: url("./assets/img/madera.jpg");
     background-size: cover;;
 }
