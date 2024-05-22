@@ -18,6 +18,7 @@ export class PlaylistComponent {
   public playlist10: Promise<Playlist[]> | undefined;
   public addPlaylist: FormGroup;
   public newPlaylist: Playlist | undefined;
+  public song: boolean = false;
 
   constructor(
     private servicePlaylist: playlistService,
@@ -75,5 +76,9 @@ export class PlaylistComponent {
       console.log('Playlist eliminada exitosamente', response);
       this.ngOnInit(); 
     });
+  }
+
+  selectPlaylist(id:number){
+    this.song=false
   }
 }

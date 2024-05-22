@@ -15,6 +15,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { SubidaComponent } from './components/subida/subida.component';
 import { DescargasComponent } from './components/descargas/descargas.component';
 import { PlaylistComponent } from './components/playlist/playlist.component';
+import { AddPlaylistSongComponent } from './components/add-playlist-song/add-playlist-song.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { PlaylistComponent } from './components/playlist/playlist.component';
     PageNotFoundComponent,
     SubidaComponent,
     DescargasComponent,
-    PlaylistComponent
+    PlaylistComponent,
+    AddPlaylistSongComponent
   ],
   imports: [
     BrowserModule,

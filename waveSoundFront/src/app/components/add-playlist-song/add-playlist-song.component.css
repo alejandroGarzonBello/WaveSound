@@ -1,0 +1,9 @@
+img{
+    width: 50px;
+    border-radius: 10px;
+}
+
+.scrollable-list {
+    max-height: 75vh;
+    overflow-y: auto;
+}

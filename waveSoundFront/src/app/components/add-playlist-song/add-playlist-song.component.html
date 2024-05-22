@@ -1,0 +1,29 @@
+<div class="d-flex align-items-center">
+    <li class="text-white border border-white bg-secondary d-flex align-items-center pt-1 pb-1 ps-2 pe-2 rounded" (click)="mostrarSelect()" style="list-style-type: none;">
+        <img src="{{selectPortada}}" alt="">
+        <p class="pt-3 ms-2">{{selectTitulo}}</p>
+        <button class="btn bg-white text-dark p-0 ms-2"><span class="material-symbols-outlined">
+            {{selectIcon}}
+            </span></button>
+    </li>
+    <div class="ms-3">
+        <div></div>
+        <button class="btn btn-success btn-outline-success text-white">
+            A&ntilde;adir
+        </button>
+    </div>
+    
+</div>
+
+@if (selectMostado) {
+    <div class="d-flex">
+        <ul class="nav-list p-3 pt-1 scrollable-list bg-dark border border-white text-white ">
+            <li class="nav-list-item d-flex mt-2 p-1" *ngFor="let c of canciones10 | async" (click)="cambiarSelected(c)" style="list-style-type: none;">
+                <img [src]="c.portada" alt="">
+                <p class="pt-3 ms-2">{{c.titulo}}</p>
+            </li>
+        </ul>
+        <div></div>
+    </div>
+
+}

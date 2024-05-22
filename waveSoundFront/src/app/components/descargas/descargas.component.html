@@ -1,13 +1,10 @@
-<div class="fondo">
-    
-
-<div class="centered-div">
+<div class="centered-div bg-dark">
     <form [formGroup]="form" class="register" (submit)="onSubmit()">
         <input type="text" placeholder="Nombre del video" class="input-field" id="nombre" name="nombre" formControlName="nombre">
         <input type="text" placeholder="URL del video" class="input-field" id="url" name="url" formControlName="url">
-        <button class="download-button" type="submit">Descargar Video</button>
+        <button class="download-button btn btn-info text-white" type="submit">Descargar Video</button>
     </form>
-    <button class="download-button" (click)="onSubmit2()" type="submit">Descargar Audio</button>
+    <button class="download-button btn btn-warning text-white" (click)="onSubmit2()" type="submit">Descargar Audio</button>
 </div>
 <div class="container bg-dark">
     <div class="row justify-content-center w-100">
@@ -30,6 +27,5 @@
             </div>
         </div>
     </div> 
-</div>
 </div>
 
