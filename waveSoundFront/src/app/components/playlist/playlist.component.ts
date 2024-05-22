@@ -29,6 +29,7 @@ export class PlaylistComponent {
     this.addPlaylist = this.formBuilder.group({
       nombre: [''],
       portada: [''],
+      descripcion: [''],
     });
   }
 
@@ -55,6 +56,7 @@ export class PlaylistComponent {
         id: 0,
         nombre: this.addPlaylist.value.nombre,
         portada: this.addPlaylist.value.portada,
+        descripcion: this.addPlaylist.value.descripcion,
         usuario: JSON.parse(localStorage.getItem('usuario') || '{}'),
       };
       console.log(this.newPlaylist);
@@ -62,14 +64,8 @@ export class PlaylistComponent {
       if (this.newPlaylist) {
         this.servicePlaylist
           .addPlaylist(this.newPlaylist)
-          .then((response: any) => {
-            console.log('Playlist creada exitosamente', response);
-            this.ngOnInit(); // Recargar listas de reproducción después de la creación
-            this.addPlaylist.reset();
-          })
-          .catch((error: any) => {
-            console.error('Error al crear la playlist', error);
-          });
+          this.ngOnInit(); 
+          this.addPlaylist.reset();
       }
     }
   }

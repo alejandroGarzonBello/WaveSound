@@ -5,5 +5,6 @@ export interface Playlist{
   id: number;
   nombre: string;
   portada: string;
+  descripcion:string,
   usuario: Usuario;
 }

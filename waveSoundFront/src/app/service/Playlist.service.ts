@@ -27,9 +27,9 @@ export class playlistService {
         return this.httpClient.get(`${this.baseurl}/playlists/usuario/${this.userId}`, { headers: this.headers }).toPromise() as Promise<Playlist[]>;
     }
 
-    addPlaylist = (playlist: any): any => {
+    addPlaylist = (playlist: any): Promise<string> => {
         delete playlist.id;
-        return this.httpClient.post(`${this.baseurl}/playlists`, playlist, { headers: this.headers }).toPromise() as Promise<Playlist>;
+        return this.httpClient.post(`${this.baseurl}/playlists`, playlist, { headers: this.headers }).toPromise() as Promise<string>;
     }
 
     deletePlaylist = (id: number): any => {
