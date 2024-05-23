@@ -7,7 +7,7 @@
         <img [src]="p.portada" class="card-img-top mt-3" alt="">
         <div class="card-body p-1 d-flex justify-content-center align-items-center gap-0 alFgn-items-center">
           <div class="marquee-container">
-            <p class="card-title marquee">{{p.nombre}}</p>
+            <p class="card-title marquee" style="min-width: 20vh;">{{p.nombre}}</p>
           </div>
           <button class="btn  text-white btn-sm p-1 btn-outline-danger border-0" (click)="deletePlaylist(p.id)"><span class="material-symbols-outlined">
             close

@@ -15,8 +15,9 @@ import { CancionService } from '../../service/Canciones.service';
 export class HomeComponent {
 
   constructor(private tokenService:TokenService,private router:Router,private servicio:CancionService) { }
-
+  playPause:String = "play_arrow"
   desactivada=true
+  mostrarMenu=true
   storageSub: Subscription | undefined;
   cancionData = localStorage.getItem('cancion');
   cancion: Cancion = this.cancionData ? JSON.parse(this.cancionData) : {};
@@ -76,6 +77,11 @@ export class HomeComponent {
         group?.classList.remove('playing')
         this.desactivada = true
       }
+      if (this.desactivada){
+        this.playPause= "play_arrow"
+      }else
+        this.playPause= "pause"
+
     }
 
     nextAudio() {
@@ -113,6 +119,14 @@ export class HomeComponent {
     setAudioSource(src: string) {
       if (this.audioElement) {
         this.audioElement.nativeElement.src = src;
+      }
+    }
+
+    esconderMenu(){
+      if(this.mostrarMenu){
+        this.mostrarMenu=false
+      }else{
+        this.mostrarMenu=true
       }
     }
 

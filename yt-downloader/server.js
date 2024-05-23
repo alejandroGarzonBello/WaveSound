@@ -80,69 +80,6 @@ app.post('/downloadAudio', async (req, res) => {
     }
 });
 
-
-
-
-
-
-
-
-
-app.post('/downloadAudioLocal', async (req, res) => {
-    const url = req.body.url;
-    const audioName = req.body.audioName;
-
-    if (!url || !ytdl.validateURL(url)) {
-        return res.status(400).send('Invalid URL');
-    }
-
-    try {
-        const userPath = `descargas/audio`;
-        fs.mkdirSync(userPath, { recursive: true });
-
-        const audioStream = ytdl(url, {
-            quality: 'highestaudio',
-            filter: 'audioonly'
-        });
-
-        const filePath = path.join(__dirname, `${userPath}/${audioName}.mp3`);
-        const writeStream = fs.createWriteStream(filePath);
-
-        audioStream.pipe(writeStream);
-
-        writeStream.on('finish', () => {
-            res.send({ message: 'Audio is downloaded', path: `http://localhost:3000/downloadAudioLocal?filePath=${encodeURIComponent(filePath)}` });
-        });
-
-        audioStream.on('error', (error) => {
-            console.error('Error downloading audio:', error);
-            res.status(500).send('Error downloading audio');
-        });
-
-    } catch (error) {
-        console.error('Error downloading audio:', error);
-        res.status(500).send('Error downloading audio');
-    }
-});
-
-app.get('/downloadAudioLocal', function(req, res) {
-    const filePath = req.query.filePath;
-    res.download(filePath); // Set disposition and send it.
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 app.get('/downloadVideo', function(req, res){
     const videoName = req.query.videoName;
     const userId = req.query.userId;
@@ -202,4 +139,49 @@ app.get('/downloadAudio', function(req, res){
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
+});
+
+/**
+ * Mobile
+ */
+app.post('/downloadAudioLocal', async (req, res) => {
+    const url = req.body.url;
+    const audioName = req.body.audioName;
+
+    if (!url || !ytdl.validateURL(url)) {
+        return res.status(400).send('Invalid URL');
+    }
+
+    try {
+        const userPath = `descargas/audio`;
+        fs.mkdirSync(userPath, { recursive: true });
+
+        const audioStream = ytdl(url, {
+            quality: 'highestaudio',
+            filter: 'audioonly'
+        });
+
+        const filePath = path.join(__dirname, `${userPath}/${audioName}.mp3`);
+        const writeStream = fs.createWriteStream(filePath);
+
+        audioStream.pipe(writeStream);
+
+        writeStream.on('finish', () => {
+            res.send({ message: 'Audio is downloaded', path: `http://localhost:3000/downloadAudioLocal?filePath=${encodeURIComponent(filePath)}` });
+        });
+
+        audioStream.on('error', (error) => {
+            console.error('Error downloading audio:', error);
+            res.status(500).send('Error downloading audio');
+        });
+
+    } catch (error) {
+        console.error('Error downloading audio:', error);
+        res.status(500).send('Error downloading audio');
+    }
+});
+
+app.get('/downloadAudioLocal', function(req, res) {
+    const filePath = req.query.filePath;
+    res.download(filePath); // Set disposition and send it.
 });
