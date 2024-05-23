@@ -9,12 +9,18 @@
         
         @if (menuSelected == 'canciones'){
             <ul class="nav-list p-3 pt-1 scrollable-list">
-                <li class="nav-list-item" *ngFor="let c of canciones10 | async" (click)="reproducir(c)">
-                    <img [src]="c.portada" alt="">{{c.titulo}}
-                </li>
+                @if(cancionArray && cancionArray.length > 0){
+                    <li class="nav-list-item" *ngFor="let c of cancionArray" (click)="reproducir(c)">
+                        <img [src]="c.portada" alt="">{{c.titulo}}
+                    </li>
+                }@else {
+                    <li class="nav-list-item" *ngFor="let c of canciones10 | async" (click)="reproducir(c)">
+                        <img [src]="c.portada" alt="">{{c.titulo}}
+                    </li>
+                }            
             </ul>
         } @else {
-            <app-playlist/>
+            <app-playlist (playListCancionEvento)="reciboCancionPlaylist($event)"/>
         }
     </div>
 </div>

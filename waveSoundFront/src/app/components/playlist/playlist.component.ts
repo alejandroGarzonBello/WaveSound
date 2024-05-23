@@ -1,10 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { playlistService } from '../../service/Playlist.service';
 import { Playlist } from '../../models/Playlist';
 import { Route, Router } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Form, FormBuilder, FormGroup } from '@angular/forms';
 import { TokenService } from '../../service/Token.service';
 import { AuthService } from '../../service/Auth.service';
+import { Organizacion } from '../../models/Organizacion';
+import { Cancion } from '../../models/Cancion';
+import { CancionService } from '../../service/Canciones.service';
+import { OrganizacionService } from '../../service/Organizacion.service';
 
 @Component({
   selector: 'app-playlist',
@@ -17,11 +21,18 @@ export class PlaylistComponent {
 
   public playlist10: Promise<Playlist[]> | undefined;
   public addPlaylist: FormGroup;
+  public playlistAddSongForm: FormGroup;
   public newPlaylist: Playlist | undefined;
   public song: boolean = false;
+  public playlistAddSong?: Playlist;
+  cancionEvento?: Cancion;
+  public playlistSongs?: Cancion[]
+  @Output() playListCancionEvento = new EventEmitter<Cancion[]>()
 
   constructor(
     private servicePlaylist: playlistService,
+    private serviceCancion: CancionService,
+    private serviceOrganizacion: OrganizacionService,
     private router: Router,
     private formBuilder: FormBuilder,
     private service: AuthService,
@@ -31,6 +42,9 @@ export class PlaylistComponent {
       nombre: [''],
       portada: [''],
       descripcion: [''],
+    });
+    this.playlistAddSongForm = this.formBuilder.group({
+      idCancion: [''],
     });
   }
 
@@ -81,4 +95,32 @@ export class PlaylistComponent {
   selectPlaylist(id:number){
     this.song=false
   }
+  
+  addPlalistSong(playList: Playlist){
+    this.playlistAddSong=playList;
+  }
+
+  onSubmitAddSong(){
+      
+      this.serviceOrganizacion.saveOrganizacion(this.cancionEvento?.id, this.playlistAddSong?.id)
+      .then((response:any) => {
+        console.log('Organización guardada:', response);
+      })
+      .catch((error:any) => {
+        console.error('Error al guardar organización:', error);
+      });
+  }
+
+  receiveMessage($event: string) {
+    console.log("prueba" + $event);
+    this.cancionEvento = JSON.parse($event);
+  }
+
+  cargarCanciones(id: number) {
+    this.servicePlaylist.getPlaylistSongs(id).then((response: any) => {
+      this.playlistSongs = response;
+    });
+    this.playListCancionEvento.emit(this.playlistSongs)
+  }
+
 }

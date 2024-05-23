@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Cancion } from '../../models/Cancion';
 import { CancionService } from '../../service/Canciones.service';
 import { Route, Router } from '@angular/router';
@@ -15,7 +15,7 @@ export class AddPlaylistSongComponent {
   public selectPortada:String="../../../assets/img/img_default.png";
   public selectMostado:boolean = false;
   public selectIcon:String = "arrow_drop_down"
-
+  @Output() cancionEvento = new EventEmitter<string>()
   usuario:Usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
   constructor(private serviceCancion:CancionService,private router:Router) { }
 
@@ -34,6 +34,7 @@ export class AddPlaylistSongComponent {
     this.selectId=cancion.id;
     this.selectTitulo=cancion.titulo;
     this.selectPortada=cancion.portada
+    this.cancionEvento.emit(JSON.stringify(cancion));
     this.mostrarSelect()
   }
 

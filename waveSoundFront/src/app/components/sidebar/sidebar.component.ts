@@ -17,7 +17,9 @@ export class SidebarComponent {
   public canciones: Promise<Cancion[]> | undefined = this.serviceCancion.getCancionesPorUsuarioId(this.usuario.id);
 
   public canciones10: Promise<Cancion[]> | undefined
+  public cancionArray?: Cancion[];
   @Output() cancionEvento = new EventEmitter<string>()
+
 
   ngOnInit(): void {
     this.canciones = this.serviceCancion.getCancionesPorUsuarioId(this.usuario.id);
@@ -36,5 +38,9 @@ export class SidebarComponent {
 
   setCanciones(){
     this.menuSelected = 'canciones';
+  }
+
+  reciboCancionPlaylist($event: Cancion[]){
+    this.cancionArray = $event;
   }
 }

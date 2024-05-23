@@ -526,3 +526,10 @@
 	animation: mover 2s infinite;
 }
 
+#botonMenu{
+	position: absolute;
+	top: 45vh;
+	right: 0;
+	
+	cursor: pointer;
+}
