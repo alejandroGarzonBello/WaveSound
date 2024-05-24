@@ -1,4 +1,4 @@
-import { Component, ElementRef, SimpleChanges, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, SimpleChanges, ViewChild } from '@angular/core';
 import { AuthService } from '../../service/Auth.service';
 import { TokenService } from '../../service/Token.service';
 import { Route, Router } from '@angular/router';
@@ -18,7 +18,7 @@ export class HomeComponent {
   constructor(
     private tokenService: TokenService,
     private router: Router,
-    private servicio: CancionService
+    private servicio: CancionService,
   ) {}
   playPause: String = 'play_arrow';
   desactivada = true;
@@ -52,6 +52,14 @@ export class HomeComponent {
     if (this.audioElement) {
       //this.audioElement.nativeElement.src = this.cancionSrc;
     }
+  }
+
+  recieveMessage2($event: string) {
+    this.canciones = JSON.parse($event);
+  }
+
+  async recieveMessage3($event: Cancion[]) {
+    this.canciones = [...$event];
   }
 
   musica(s?: string) {

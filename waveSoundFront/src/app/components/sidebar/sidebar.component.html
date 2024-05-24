@@ -9,7 +9,8 @@
             <!-- HTML -->
             
             @if (menuSelected == 'canciones'){
-                <ul class="nav-list p-3 pt-3 scrollable-list">
+                <span class="material-symbols-outlined m-3 text-light" (click)="recargar()">refresh</span>
+                <ul class="nav-list ps-3 scrollable-list">
                     @if(cancionArray && cancionArray.length > 0){
                         <li class="nav-list-item" *ngFor="let c of cancionArray" (click)="reproducir(c)">
                             <img [src]="c.portada" alt="">{{c.titulo}}

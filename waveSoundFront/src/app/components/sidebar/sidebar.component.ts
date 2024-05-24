@@ -19,6 +19,8 @@ export class SidebarComponent {
   public canciones10: Promise<Cancion[]> | undefined
   public cancionArray?: Cancion[];
   @Output() cancionEvento = new EventEmitter<string>()
+  @Output() cancionEventoAlPadre = new EventEmitter<string>()
+  @Output() cancionEventoAlPadre2 = new EventEmitter<Cancion[]>()
   reload = false;
 
   handleUpdate() {
@@ -53,5 +55,12 @@ export class SidebarComponent {
 
   reciboCancionPlaylist($event: Cancion[]){
     this.cancionArray = $event;
+    this.cancionEventoAlPadre.emit(JSON.stringify($event));
+  }
+
+  async recargar(){
+    const cancionesRecargar = await this.serviceCancion.getCancionesPorUsuarioId(this.usuario.id);
+    this.cancionArray = cancionesRecargar;
+    this.cancionEventoAlPadre2.emit(cancionesRecargar);
   }
 }
