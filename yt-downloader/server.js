@@ -145,44 +145,56 @@ app.listen(3000, () => {
  * Mobile
  */
 app.post('/downloadAudioLocal', async (req, res) => {
-    const url = req.body.url;
-    const audioName = req.body.audioName;
+    const { url, audioName } = req.body;
 
     if (!url || !ytdl.validateURL(url)) {
-        return res.status(400).send('Invalid URL');
+        return res.status(400).send('URL inválida');
     }
 
     try {
-
         const info = await ytdl.getInfo(url);
         const audioFormats = ytdl.filterFormats(info.formats, 'audioonly');
 
         if (audioFormats.length === 0) {
-            return res.status(400).send('No audio found');
+            return res.status(400).send('No se encontró audio');
         }
 
-        const userPath = `descargas/audio/mobile`;
+        const userPath = path.join(__dirname, 'descargas/audio/mobile');
         fs.mkdirSync(userPath, { recursive: true });
 
-        const audioStream = ytdl(url, {
-            quality: 'highestaudio',
-            filter: 'audioonly',
-            format: 'm4a'
+        const filePath = path.join(userPath, `${audioName}.m4a`);
+        const audioStream = ytdl(url, { quality: 'highestaudio', filter: 'audioonly' });
+
+        const writeStream = fs.createWriteStream(filePath);
+
+        audioStream.pipe(writeStream);
+
+        writeStream.on('finish', () => {
+            res.json({ path: `http://192.168.1.105:3000/downloadAudioLocal?filePath=${filePath}` });
         });
 
-        audioStream.pipe(fs.createWriteStream(`${userPath}/${audioName}.m4a`));
+        writeStream.on('error', (error) => {
+            console.error('Error al escribir el archivo:', error);
+            res.status(500).send('Error al escribir el archivo');
+        });
 
-        audioStream.on('end', () => {
-            res.send('Audio is being downloaded...');
+        audioStream.on('error', (error) => {
+            console.error('Error al descargar el audio:', error);
+            res.status(500).send('Error al descargar el audio');
         });
 
     } catch (error) {
-        console.error('Error downloading audio:', error);
-        res.status(500).send('Error downloading audio');
+        console.error('Error al procesar la solicitud:', error);
+        res.status(500).send('Error al procesar la solicitud');
     }
 });
 
-app.get('/downloadAudioLocal', function(req, res) {
+app.get('/downloadAudioLocal', (req, res) => {
     const filePath = req.query.filePath;
-    res.download(filePath); // Set disposition and send it.
+    res.download(filePath, (err) => {
+        if (err) {
+            console.error('Error al enviar el archivo:', err);
+            res.status(500).send('Error al enviar el archivo');
+        }
+    });
 });
