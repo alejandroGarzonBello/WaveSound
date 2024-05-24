@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./waveSoundFront
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80" # Exponer el puerto 80 de Nginx en el puerto 4200 local
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./waveSoundBack
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/nombre_base_de_datos
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+
+  microservicio:
+    build:
+      context: ./yt-downloader
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+
+  mysql:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: wavesound
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:
