@@ -6,8 +6,7 @@ import { Cancion } from '../../models/Cancion';
 import { Subscription } from 'rxjs';
 import { Usuario } from '../../models/Usuario';
 import { CancionService } from '../../service/Canciones.service';
-import Swal from 'sweetalert2';
-import 'sweetalert2/src/sweetalert2.scss';
+declare const Swal: any;
 
 @Component({
   selector: 'app-home',

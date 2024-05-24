@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TokenService } from '../../service/Token.service';
 import { AuthService } from '../../service/Auth.service';
 import { Usuario } from '../../models/Usuario';
-import Swal from 'sweetalert2';
+declare const Swal: any;
 
 @Component({
   selector: 'app-login',
