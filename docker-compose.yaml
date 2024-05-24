@@ -19,7 +19,7 @@ services:
     depends_on:
       - mysql
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/nombre_base_de_datos
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/wavesound
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
 
