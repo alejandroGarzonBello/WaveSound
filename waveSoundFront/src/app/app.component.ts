@@ -11,4 +11,16 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   title = 'waveSoundFront';
+  isLoggedOut = false;
+
+  handleLogout() {
+    this.isLoggedOut = true;
+    // Recargar el componente padre
+    this.reloadComponent();
+  }
+
+  reloadComponent() {
+    this.isLoggedOut = false;
+    // Cualquier otra lógica de reinicio del componente
+  }
 }

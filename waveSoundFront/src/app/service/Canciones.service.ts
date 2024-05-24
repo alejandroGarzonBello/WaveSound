@@ -21,6 +21,10 @@ export class CancionService {
         return this.httpClient.get(`${this.baseurl}/canciones/usuario/${id}`,{headers: this.headers}).toPromise() as Promise<Cancion[]>
     }
 
+    getPlaylistNoCanciones(id:number): Promise<Cancion[]> {
+        return this.httpClient.get(`${this.baseurl}/canciones/noPlaylist/${id}`,{headers: this.headers}).toPromise() as Promise<Cancion[]>
+    }
+
     getCancionById=async(id:number): Promise<Cancion> => {
         return this.httpClient.get(`${this.baseurl}/canciones/${id}`,{headers: this.headers}).toPromise() as Promise<Cancion>
     }

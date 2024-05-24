@@ -1,8 +1,9 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { Cancion } from '../../models/Cancion';
 import { CancionService } from '../../service/Canciones.service';
 import { Route, Router } from '@angular/router';
 import { Usuario } from '../../models/Usuario';
+import { Playlist } from '../../models/Playlist';
 
 @Component({
   selector: 'app-add-playlist-song',
@@ -19,16 +20,34 @@ export class AddPlaylistSongComponent {
   usuario:Usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
   constructor(private serviceCancion:CancionService,private router:Router) { }
 
-  public canciones: Promise<Cancion[]> | undefined = this.serviceCancion.getCancionesPorUsuarioId(this.usuario.id);
 
   public canciones10: Promise<Cancion[]> | undefined
-
+  @Input() msjPlaylistAddSong?: Playlist;
+  public canciones: Promise<Cancion[]> | undefined;
   ngOnInit(): void {
-    this.canciones = this.serviceCancion.getCancionesPorUsuarioId(this.usuario.id);
-    this.canciones10 = this.canciones?.then((canciones: Cancion[]) => {
-      return canciones.slice(0, 10);
-    });
+    console.log("La playlist:"+this.msjPlaylistAddSong);
+    if (this.msjPlaylistAddSong) {
+      console.log("id de la playlist:"+this.msjPlaylistAddSong.id);
+      
+      this.canciones = this.serviceCancion.getPlaylistNoCanciones(this.msjPlaylistAddSong.id);
+      this.canciones10 = this.canciones?.then((canciones: Cancion[]) => {
+        return canciones.slice(0, 10);
+      });
+    }
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['msjPlaylistAddSong']) {
+      this.handleDataChange();
+      this.ngOnInit();
+    }
+  }
+
+  handleDataChange(): void {
+    // Lógica para manejar el cambio de data
+    console.log('Data en el hijo ha cambiado:', this.msjPlaylistAddSong);
+  }
+  
 
   cambiarSelected(cancion:Cancion){
     this.selectId=cancion.id;

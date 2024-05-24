@@ -153,26 +153,27 @@ app.post('/downloadAudioLocal', async (req, res) => {
     }
 
     try {
-        const userPath = `descargas/audio`;
+
+        const info = await ytdl.getInfo(url);
+        const audioFormats = ytdl.filterFormats(info.formats, 'audioonly');
+
+        if (audioFormats.length === 0) {
+            return res.status(400).send('No audio found');
+        }
+
+        const userPath = `descargas/audio/mobile`;
         fs.mkdirSync(userPath, { recursive: true });
 
         const audioStream = ytdl(url, {
             quality: 'highestaudio',
-            filter: 'audioonly'
+            filter: 'audioonly',
+            format: 'm4a'
         });
 
-        const filePath = path.join(__dirname, `${userPath}/${audioName}.mp3`);
-        const writeStream = fs.createWriteStream(filePath);
+        audioStream.pipe(fs.createWriteStream(`${userPath}/${audioName}.m4a`));
 
-        audioStream.pipe(writeStream);
-
-        writeStream.on('finish', () => {
-            res.send({ message: 'Audio is downloaded', path: `http://localhost:3000/downloadAudioLocal?filePath=${encodeURIComponent(filePath)}` });
-        });
-
-        audioStream.on('error', (error) => {
-            console.error('Error downloading audio:', error);
-            res.status(500).send('Error downloading audio');
+        audioStream.on('end', () => {
+            res.send('Audio is being downloaded...');
         });
 
     } catch (error) {

@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import "bootstrap/dist/css/bootstrap.css";
-
+@import "sweetalert2/dist/sweetalert2.css";
 body{
     background-image: url("./assets/img/madera.jpg");
     background-size: cover;;

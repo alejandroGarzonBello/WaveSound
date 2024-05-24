@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Cancion } from '../../models/Cancion';
@@ -19,7 +19,10 @@ export class SubidaComponent {
   usuario:Usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
   file:File|null = null
   submitted = false
-
+  @Output() reloadEvent = new EventEmitter<void>();
+  @ViewChild('closeModal') closeModal:
+    | ElementRef<HTMLButtonElement>
+    | undefined;
   constructor(private builder:FormBuilder,private router:Router,private activaetedRoute:ActivatedRoute,private service:CancionService) {
       this.form= this.builder.group({
         titulo: ["",Validators.required],
@@ -53,6 +56,8 @@ export class SubidaComponent {
           (error: any)  => this.handleError(error)
         );
       }
+      this.reloadEvent.emit()
+      this.closeModal?.nativeElement.click();
     }
    }
 

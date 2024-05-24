@@ -1,26 +1,31 @@
-<div class="d-flex flex-column justify-content-end" style="min-width: 60vh;">
+<div class="d-flex flex-column justify-content-end" style="min-width: 75vh;">
     <div class="ps-1 mt-1" >
         <button (click)="setCanciones()" class="btn bg-dark border border-bottom-0 rounded-top straight-bottom text-white">Canciones</button>
         <button (click)="playlist()" class="btn bg-dark border border-bottom-0 rounded-top straight-bottom text-white">Playlist</button>
-        <app-subida/>
+        <app-subida (reloadEvent)="handleUpdate()"/>
     </div>
-    <div class="rounded-start border border-white" style="background-color: #313338; min-height: 75vh;">
-        <!-- HTML -->
-        
-        @if (menuSelected == 'canciones'){
-            <ul class="nav-list p-3 pt-1 scrollable-list">
-                @if(cancionArray && cancionArray.length > 0){
-                    <li class="nav-list-item" *ngFor="let c of cancionArray" (click)="reproducir(c)">
-                        <img [src]="c.portada" alt="">{{c.titulo}}
-                    </li>
-                }@else {
-                    <li class="nav-list-item" *ngFor="let c of canciones10 | async" (click)="reproducir(c)">
-                        <img [src]="c.portada" alt="">{{c.titulo}}
-                    </li>
-                }            
-            </ul>
-        } @else {
-            <app-playlist (playListCancionEvento)="reciboCancionPlaylist($event)"/>
-        }
+    <div *ngIf="!reload">
+        <div class="rounded-start border border-white ps-3 pe-3" style="background-color: #313338; min-height: 75vh;">
+            <!-- HTML -->
+            
+            @if (menuSelected == 'canciones'){
+                <ul class="nav-list p-3 pt-3 scrollable-list">
+                    @if(cancionArray && cancionArray.length > 0){
+                        <li class="nav-list-item" *ngFor="let c of cancionArray" (click)="reproducir(c)">
+                            <img [src]="c.portada" alt="">{{c.titulo}}
+                        </li>
+                    }@else {
+                        <li class="nav-list-item" *ngFor="let c of canciones10 | async" (click)="reproducir(c)">
+                            <img [src]="c.portada" alt="">{{c.titulo}}
+                        </li>
+                    }            
+                </ul>
+            } @else {
+                <div class="pt-3">
+                    <app-playlist (playListCancionEvento)="reciboCancionPlaylist($event)"/>
+                </div>
+            }
+        </div>
     </div>
+    
 </div>

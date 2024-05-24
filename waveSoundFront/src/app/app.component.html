@@ -7,8 +7,10 @@
           <a class="nav-link" routerLink=""><span class="h5 text-white">Home</span></a>
           <a class="nav-link ms-3" routerLink="descargar"><span class="54 text-white">Descarga</span></a>
         </div>
-        <app-login></app-login>
+        <app-login (logoutEvent)="handleLogout()"></app-login>
       </div>
     </nav>
-    <router-outlet />
+    <div *ngIf="!isLoggedOut">
+      <router-outlet />
+    </div>
 </div>

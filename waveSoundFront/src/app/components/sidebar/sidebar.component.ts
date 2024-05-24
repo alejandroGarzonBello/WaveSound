@@ -19,7 +19,18 @@ export class SidebarComponent {
   public canciones10: Promise<Cancion[]> | undefined
   public cancionArray?: Cancion[];
   @Output() cancionEvento = new EventEmitter<string>()
+  reload = false;
 
+  handleUpdate() {
+    this.reload = true;
+    // Recargar el componente padre
+    this.reloadComponent();
+  }
+
+  reloadComponent() {
+    this.reload = false;
+    // Cualquier otra lógica de reinicio del componente
+  }
 
   ngOnInit(): void {
     this.canciones = this.serviceCancion.getCancionesPorUsuarioId(this.usuario.id);

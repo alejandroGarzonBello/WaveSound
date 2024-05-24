@@ -19,6 +19,9 @@ export class playlistService {
         console.log("id: " + this.userId);
 
     }
+    updateUserId(){
+        this.userId = localStorage.getItem('id');
+    }
 
     getPlaylist = async (): Promise<any> => {
         return this.httpClient.get(`${this.baseurl}/playlists`, { headers: this.headers }).toPromise() as Promise<Playlist[]>;

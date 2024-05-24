@@ -1,14 +1,10 @@
-import {
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TokenService } from '../../service/Token.service';
 import { AuthService } from '../../service/Auth.service';
 import { Usuario } from '../../models/Usuario';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +13,9 @@ import { Usuario } from '../../models/Usuario';
 })
 export class LoginComponent implements OnInit {
   @ViewChild('closeModal') closeModal:
+    | ElementRef<HTMLButtonElement>
+    | undefined;
+    @ViewChild('buttomModal') buttomModal:
     | ElementRef<HTMLButtonElement>
     | undefined;
   @ViewChild('password') password: ElementRef<HTMLInputElement> | undefined;
@@ -45,9 +44,18 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  @Output() logoutEvent = new EventEmitter<void>();
+
+
   ngOnInit(): void {
     if (this.tokenService.getToken()) {
       this.loged = true;
+    }
+  }
+
+  ngAfterViewInit(): void {
+    if (!this.loged) {
+      this.buttomModal?.nativeElement.click();
     }
   }
 
@@ -60,21 +68,40 @@ export class LoginComponent implements OnInit {
             this.handleResponse(response);
             this.loged = true;
             this.closeModal?.nativeElement.click();
+            //window.location.reload();
+            this.logoutEvent.emit()
+            
           },
-          (error) => this.handleError(error)
+          (error) => {
+            this.handleError(error)
+            Swal.fire({
+              icon: "error",
+              title: "Algo salió mal",
+              text: "Revise si el correo  la contraseña son correctos",
+            });
+          }
+          
         );
 
         if (this.password) {
           this.password.nativeElement.value = '';
         }
-      }
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Algo salió mal",
+          text: "Introducta un correo válido",
+        });}
     } else {
+      
       if (this.registerForm.valid) {
         this.service.register(this.registerForm.value).subscribe(
           (response) => this.handleResponse(response),
           (error) => this.handleError(error)
         );
+        
       }
+      
     }
   }
 
@@ -87,6 +114,8 @@ export class LoginComponent implements OnInit {
     this.loged = false;
     this.router.navigate(['']);
     localStorage.removeItem('id');
+    this.logoutEvent.emit()
+    //window.location.reload();
   }
 
   private handleResponse(response: any): void {
@@ -114,13 +143,14 @@ export class LoginComponent implements OnInit {
   handleError(error: any) {
     // Verificar si error y error.error existen
     if (error && error.error) {
-      this.errors = error.error.errors || { non_field_errors: error.error.message || 'An unknown error occurred' };
+      this.errors = error.error.errors || {
+        non_field_errors: error.error.message || 'An unknown error occurred',
+      };
     } else {
       this.errors = { non_field_errors: 'An unknown error occurred' };
     }
     console.log(this.errors);
   }
-  
 
   private cleanErrors() {
     this.errors = null;

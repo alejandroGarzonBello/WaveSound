@@ -1,18 +1,19 @@
 <div class="d-flex flex-wrap justify-content-center gap-3 pt-3 scrollable-list">
+
   <div *ngFor="let p of playlist10 | async">
     
       <div class="card bg-dark border-2 border-light text-white d-flex justify-content-center align-items-center"
         style="width: 9rem;" (click)="cargarCanciones(p.id)">
 
         <img [src]="p.portada" class="card-img-top mt-3" alt="">
-        <div class="card-body p-1 d-flex justify-content-center align-items-center gap-0 alFgn-items-center">
+        <div class="card-body p-1 d-flex justify-content-center align-items-center gap-0 alFgn-items-center ms-2 me-2">
           <div class="marquee-container">
-            <p class="card-title marquee" style="min-width: 10vh;">{{p.nombre}}</p>
+            <p class="card-title marquee" style="width: 10vh;">{{p.nombre}}</p>
           </div>
           <button class="btn text-white btn-sm btn-outline-info border-0 p-0 ms-1" (click)="addPlalistSong(p)"
             data-bs-target="#anadirCancionPlaylist" data-bs-toggle="modal">
             <span class="material-symbols-outlined m-0 p-0">
-              edit
+              add
             </span>
           </button>
           <button class="btn  text-white btn-sm p-0 btn-outline-danger border-0" (click)="deletePlaylist(p.id)"><span
@@ -26,7 +27,7 @@
   </div>
 
   <a data-bs-toggle="modal" data-bs-target="#crearPlaylist">
-    <div class="card bg-transparent border-2 border-white text-white" style="width: 9rem;">
+    <div class="card bg-transparent border-2 border-white text-white" style="width: 9rem; min-height: 28vh;">
       <div class="card-body d-flex justify-content-center align-items-center">
         <p class="card-title"><span class="material-symbols-outlined">
             add
@@ -42,7 +43,7 @@
     <div class="modal-content text-start">
       <div class="modal-header d-flex align-items-center justify-content-around me-2">
         <p class="modal-title fs-4 ps-4 fw-bold">Crear Playlist</p>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>
       </div>
       <form [formGroup]="addPlaylist" (ngSubmit)="onSubmit()">
         <div class="modal-body ms-4 me-4">
@@ -77,15 +78,20 @@
     <div class="modal-content text-start">
       <div class="modal-header d-flex align-items-center justify-content-around me-2">
         <p class="modal-title fs-4 ps-4 fw-bold">A&ntilde;adir Canci&oacute;n Playlist</p>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalAddSong ></button>
       </div>
         <div class="modal-body ms-4 me-4 d-flex">
-          <app-add-playlist-song (cancionEvento)="receiveMessage($event)"></app-add-playlist-song>
+          @if(playlistAddSong != null){
 
+            <app-add-playlist-song (cancionEvento)="receiveMessage($event)" [msjPlaylistAddSong]="playlistAddSong"></app-add-playlist-song>
+          }
 
-          <button class="btn btn-success btn-outline-success text-white" (click)="onSubmitAddSong()">
-            A&ntilde;adir
-          </button>
+          <div class="d-flex align-items-top ms-2" style="max-height: 11vh;">
+            <button class="btn btn-success btn-outline-success text-white p-3" (click)="onSubmitAddSong()">
+              A&ntilde;adir
+            </button>
+          </div>
+            
 
         </div>
 

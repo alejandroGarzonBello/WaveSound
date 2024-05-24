@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { playlistService } from '../../service/Playlist.service';
 import { Playlist } from '../../models/Playlist';
 import { Route, Router } from '@angular/router';
@@ -28,6 +28,12 @@ export class PlaylistComponent {
   cancionEvento?: Cancion;
   public playlistSongs?: Cancion[]
   @Output() playListCancionEvento = new EventEmitter<Cancion[]>()
+  @ViewChild('closeModal') closeModal:
+  | ElementRef<HTMLButtonElement>
+  | undefined;
+  @ViewChild('closeModalAddSong') closeModalAddSong:
+  | ElementRef<HTMLButtonElement>
+  | undefined;
 
   constructor(
     private servicePlaylist: playlistService,
@@ -48,7 +54,10 @@ export class PlaylistComponent {
     });
   }
 
+  
+
   async ngOnInit(): Promise<void> {
+    this.servicePlaylist.updateUserId();
     this.playlist = this.servicePlaylist.getUserPlaylist();
 
     console.log('palylist: ' + this.playlist);
@@ -77,11 +86,15 @@ export class PlaylistComponent {
       console.log(this.newPlaylist);
       
       if (this.newPlaylist) {
-        this.servicePlaylist
-          .addPlaylist(this.newPlaylist)
-          this.ngOnInit(); 
-          this.addPlaylist.reset();
+        this.servicePlaylist.addPlaylist(this.newPlaylist).then(() => {
+          this.ngOnInit(); // Actualizar la lista de playlists después de agregar una nueva
+          this.addPlaylist.reset(); // Resetear el formulario
+        }).catch((error: any) => {
+          console.error('Error al agregar la playlist:', error);
+        });
       }
+      
+      this.closeModal?.nativeElement.click();
     }
   }
 
@@ -109,6 +122,8 @@ export class PlaylistComponent {
       .catch((error:any) => {
         console.error('Error al guardar organización:', error);
       });
+      this.closeModalAddSong?.nativeElement.click();
+
   }
 
   receiveMessage($event: string) {
