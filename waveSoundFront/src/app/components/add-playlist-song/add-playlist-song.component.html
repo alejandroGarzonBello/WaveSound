@@ -1,5 +1,6 @@
 <div class="d-flex align-items-center">
-    <li class="text-white border border-white bg-secondary d-flex align-items-center justify-content-between pt-1 pb-1 ps-2 pe-2 rounded" (click)="mostrarSelect()" style="list-style-type: none; min-width:50vh;">
+    <li class="text-white border border-white bg-secondary d-flex align-items-center justify-content-between pt-1 pb-1 ps-2 pe-2 rounded"
+        (click)="mostrarSelect()" style="list-style-type: none; min-width:50vh;">
         <div class="d-flex">
             <img src="{{selectPortada}}" alt="">
             <div class="marquee-container ms-2" style="min-width: 25vh;">
@@ -7,24 +8,22 @@
             </div>
         </div>
         <button class="btn bg-white text-dark p-0 ms-2"><span class="material-symbols-outlined">
-            {{selectIcon}}
+                {{selectIcon}}
             </span></button>
     </li>
-    
-    
 </div>
 
 @if (selectMostado) {
-    <div class="d-flex">
-        <ul class="nav-list p-3 pt-1 scrollable-list bg-dark border border-white text-white" style="min-width:50vh;">
-            <li class="nav-list-item d-flex mt-2 p-0" *ngFor="let c of canciones10 | async" (click)="cambiarSelected(c)" style="list-style-type: none;">
-                <img [src]="c.portada" alt="">
-                <div class="marquee-container" >
-                    <p class="pt-3 ms-2 marquee">{{c.titulo}}</p>
-                </div>
-            </li>
-        </ul>
-        <div></div>
-    </div>
-
+<div class="d-flex">
+    <ul class="nav-list p-3 pt-1 scrollable-list bg-dark border border-white text-white" style="min-width:50vh;">
+        <li class="nav-list-item d-flex mt-2 p-0" *ngFor="let c of canciones10 | async" (click)="cambiarSelected(c)"
+            style="list-style-type: none;">
+            <img [src]="c.portada" alt="">
+            <div class="marquee-container">
+                <p class="pt-3 ms-2 marquee">{{c.titulo}}</p>
+            </div>
+        </li>
+    </ul>
+    <div></div>
+</div>
 }
