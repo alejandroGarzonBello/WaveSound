@@ -10,6 +10,7 @@ export class OrganizacionService {
 
     constructor(private httpClient: HttpClient) { }
     
+    //Inserta una organizacion con los id de la cancion y la playlist
     saveOrganizacion=(idCancion?:number, idPlaylist?:number): any => {
         return this.httpClient.post(`${this.baseurl}/organizaciones/${idCancion}/${idPlaylist}`,{headers: this.headers, responseType: 'text'}).toPromise() as Promise<string>
       }

@@ -7,44 +7,60 @@ import { AuthService } from '../../service/Auth.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  styleUrl: './register.component.css',
 })
 export class RegisterComponent {
+  public registerForm: FormGroup;
+  public errors: any;
 
-  public registerForm:FormGroup
-  public errors :any
+  constructor(
+    private builder: FormBuilder,
+    private router: Router,
+    private activaetedRoute: ActivatedRoute,
+    private service: AuthService
+  ) {
+    this.registerForm = this.builder.group({
+      nombre: [''],
+      email: [''],
+      password: [''],
+    });
+  }
 
-  constructor(private builder:FormBuilder,private router:Router,private activaetedRoute:ActivatedRoute,private service:AuthService) {
-    this.registerForm= this.builder.group({
-      nombre:[""],
-      email:[""],
-      password:[""]
-    })
-   }
-
-   onSubmit(){
-    this.cleanErrors()
-    if(this.registerForm.valid){
+  /**
+   * Metodo que se ejecuta al enviar el formulario de registro
+   */
+  onSubmit() {
+    this.cleanErrors();
+    if (this.registerForm.valid) {
       this.service.register(this.registerForm.value).subscribe(
-        response => this.handleResponse(response),
-        error => this.handleError(error)
-      )
+        (response) => this.handleResponse(response),
+        (error) => this.handleError(error)
+      );
     }
-   }
+  }
 
-   handleResponse(response:any){
-    console.log(response.message)
-    this.router.navigate(['/login'])
-   }
+  /**
+   * Metodo que se ejecuta al recibir una respuesta del servidor
+   * @param response 
+   */
+  handleResponse(response: any) {
+    console.log(response.message);
+    this.router.navigate(['/login']);
+  }
 
-   handleError(error:any){
-    this.errors = error.error.errors
-    console.log(this.errors)
-   }
+  /**
+   * Metodo que se ejecuta al recibir un error del servidor
+   * @param error 
+   */
+  handleError(error: any) {
+    this.errors = error.error.errors;
+    console.log(this.errors);
+  }
 
-   private cleanErrors(){
-    this.errors = null
-   }
-  
-
+  /**
+   * Metodo que limpia los errores
+   */
+  private cleanErrors() {
+    this.errors = null;
+  }
 }

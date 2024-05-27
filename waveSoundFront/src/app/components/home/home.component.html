@@ -65,19 +65,17 @@
   <div class="w-100 d-lg-none m-5"></div>
 
   @if (mostrarMenu){
-    <div class="col-sm-5 d-flex justify-content-end">
-      <div class=" d-flex align-items-center justify-content-end">
-        <button class="bg-dark border-1 border-white rounded-start pt-2 pb-2 text-white"  style="z-index: 3;"
-          (click)="esconderMenu()">||</button>
-      </div>
-      <app-sidebar (cancionEvento)="receiveMessage($event)" (cancionEventoAlPadre)="recieveMessage2($event)" (cancionEventoAlPadre2)="recieveMessage3($event)"></app-sidebar>
+  <div class="col-sm-5 d-flex justify-content-end">
+    <div class=" d-flex align-items-center justify-content-end">
+      <button class="bg-dark border-1 border-white rounded-start pt-2 pb-2 text-white" style="z-index: 3;"
+        (click)="esconderMenu()">||</button>
     </div>
+    <app-sidebar (cancionEvento)="receiveMessage($event)" (cancionEventoAlPadre)="recieveMessage2($event)"
+      (cancionEventoAlPadre2)="recieveMessage3($event)"></app-sidebar>
+  </div>
   }@else {
-    
-      <button class="bg-dark border-1 border-white rounded-start pt-2 pb-2 text-white boton" id="botonMenu"
+
+  <button class="bg-dark border-1 border-white rounded-start pt-2 pb-2 text-white boton" id="botonMenu"
     (click)="esconderMenu()">||</button>
-   
-    
   }
-  
 </div>
