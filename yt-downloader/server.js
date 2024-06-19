@@ -170,7 +170,7 @@ app.post('/downloadAudioLocal', async (req, res) => {
         audioStream.pipe(writeStream);
 
         writeStream.on('finish', () => {
-            res.json({ path: `http://192.168.1.105:3000/downloadAudioLocal?filePath=${filePath}` });
+            res.json({ path: `http://192.168.32.69:3000/downloadAudioLocal?filePath=${filePath}` });
         });
 
         writeStream.on('error', (error) => {
